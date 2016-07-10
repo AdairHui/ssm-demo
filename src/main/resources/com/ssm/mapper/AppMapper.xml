@@ -1,0 +1,59 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace:到上面类的全路径
+ -->
+<mapper namespace="com.ssm.dao.AppDao">
+	
+	<!-- 可以不需要 -->
+	<resultMap id="BaseResultMap" type="com.ssm.domain.App">
+		<id property="id" column="id" jdbcType="INTEGER" javaType="int"/>
+		<result property="name" column="name" jdbcType="VARCHAR" javaType="string"/>
+	</resultMap>
+	
+	<select id="list" resultType="com.ssm.domain.App">
+		SELECT 
+			id,name 
+		FROM
+			t_app
+	</select>
+	
+	<insert id="insert" parameterType="com.ssm.domain.App">
+		INSERT INTO 
+			t_app(name) 
+		VALUE
+			(#{name,jdbcType=VARCHAR})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM
+			t_app
+		WHERE
+			id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<update id="update" parameterType="com.ssm.domain.App">
+		UPDATE 
+			t_app
+		SET
+			name=#{name,jdbcType=VARCHAR}
+		WHERE
+			id=#{id,jdbcType=INTEGER}
+	</update>
+	
+	<select id="getByMap" parameterType="map" resultType="com.ssm.domain.App">
+		SELECT 
+			id,name 
+		FROM
+			t_app
+		<where>
+			<if test="id != null">
+				id = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="name != null">
+				AND name = #{name,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+</mapper>
